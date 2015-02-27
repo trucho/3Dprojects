@@ -7,8 +7,8 @@ include </Users/angueyraaristjm/Documents/LiLab/3DPrinting/GooseNeck/Parametric_
 //modularHoseFlareNozzle(i4, i1, i16);
 
 
-for (i=[0:2]) {
-	for (j=[0:2]) {
+for (i=[0:4]) {
+	for (j=[0:4]) {
 		scale([1.5, 1.5, 1.5]) {
 			translate([16*i, 16*j, 0]) {modularHoseSegment(i4);}
 		}
