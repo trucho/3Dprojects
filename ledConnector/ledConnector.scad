@@ -1,27 +1,81 @@
 //Variables
+
+//general
 n_faces=12;
+
+//inner tube
+tube_id=32.25;
+tube_h=130;
+
+//outer tube
+bigtube_wall=6.05;
+bigtube_h=120;
+
+//RJ connector for ethernet cable
+rj_x=14.7;
+rj_y=37.3;
+rj_z=16.1;
+rjtabs_x=9.98;
+rjtabs_y=13.1;
+rjtabs_z=19.4;
+
+rjtabs_disy=8.55;
+
+rjb_x=18.04;
+rjb_y=27.07;
+rjb_z=25.52;
+
+
+ethhole_x=11.45;
+ethhole_y=10;
+ethhole_z=6.95;
+
+ethhole_x2=4.7;
+ethhole_z2=9.8;
+
+ethhole_zdis=5.40;
+//leds
 led_r=5/2;
 led_h=6;
 led_rb=5.52/2;
 led_sep=.5;
-
-tube_id=32.25;
-tube_h=130;
-bigtube_wall=6.05;
-bigtube_h=120;
 
 //Main call
 // translate([20, 0, -10]) {#M3(20)};
 
 ledArray();
 
-#ledCap();
+ #ledCap();
 
+translate([0, 0, -100]) {
+		rj_connector();
+}
 // tube();
 
 //Modules
 module ledCap() {
 	cylinder(r=tube_id, h=30, center=true);
+}
+
+
+module rj_connector() {
+	rotate([90, 180, 0]) {
+		difference() {
+			union(){
+				translate([0, rj_y/2-rjtabs_disy, 0]) {cube(size=[rjtabs_x,rjtabs_y,rjtabs_z], center=true);}
+				translate([0, 0, 0]) {cube(size=[rj_x,rj_y,rj_z], center=true);}
+				translate([0, -5, 0]) {cube(size=[rjb_x,rjb_y,rjb_z], center=true);}
+			
+			}
+			union(){
+				translate([0,  rj_y/2, -rj_z/2+ethhole_z/2+ethhole_zdis]) {cube(size=[ethhole_x,ethhole_y,ethhole_z], center=true);}
+				translate([0,  rj_y/2, -rj_z/2+ethhole_z2/2+ethhole_zdis]) {cube(size=[ethhole_x2,ethhole_y,ethhole_z2], center=true);}
+			}
+		}
+	}
+	
+	
+	//translate([0, rj_y, 0]) {cube(size=[rjb_x,rjb_y,rjb_z], center=true);}
 }
 
 module ledArray(){
