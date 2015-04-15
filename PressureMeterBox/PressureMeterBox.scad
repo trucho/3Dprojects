@@ -40,34 +40,39 @@ n_faces=16;
 
 3Dprintflag=0;
 
-// main box
-bottom_tr = 3Dprintflag ? [0,0,0] : [0,0,0];
-bottom_rot = 3Dprintflag ? [0,0,0] : [0,0,0];
-// translate(bottom_tr){rotate(bottom_rot){box_bottom();}}
-
-// front (for screen)
-front_tr = 3Dprintflag ? [box_x-front_z,walls,walls+1] : [0,-front_z,front_z];
-front_rot = 3Dprintflag ? [0,0,0] : [90,90,0];
-translate(front_tr){rotate(front_rot){box_front(box_x-(walls*2),box_y-walls,front_z);}}
-
-// lid
-// lid_tr = 3Dprintflag ? [0,0,8] : [0,box_y*3,-box_y+walls];
-lid_tr = 3Dprintflag ? [0,0,8] : [0,0,-box_y+walls];
-lid_rot = 3Dprintflag ? [0,0,0] : [0,0,0];
-translate(lid_tr){rotate(lid_rot){lid();}}
-
-// pressure transducer
-transducer_tr = 3Dprintflag ? [0,0,0] : [80,-95,trbase_h];
-transducer_rot = 3Dprintflag ? [0,0,0] : [0,0,90];
-// translate(transducer_tr){rotate(transducer_rot){#transducer();}}
-translate(transducer_tr){rotate(transducer_rot){transducer_base();}}
-//translate([0, trbase_w*1.1, -10]) {translate(transducer_tr){rotate(transducer_rot){#transducer();}}}
-translate([0,0,-10]){translate(transducer_tr){rotate(transducer_rot){transducer_basetop();}}}
-
-//9V battery
-battery_tr = 3Dprintflag ? [-50,10,0] : [0,0,0];
-battery_rot = 3Dprintflag ? [90,0,180] : [0,0,0];
-// translate(battery_tr){rotate(battery_rot){#battery_9V();}}
+difference() {
+	union(){
+	// main box
+	bottom_tr = 3Dprintflag ? [0,0,0] : [0,0,0];
+	bottom_rot = 3Dprintflag ? [0,0,0] : [0,0,0];
+	// translate(bottom_tr){rotate(bottom_rot){box_bottom();}}
+	
+	// front (for screen)
+	front_tr = 3Dprintflag ? [box_x-front_z,walls,walls+1] : [0,-front_z,front_z];
+	front_rot = 3Dprintflag ? [0,0,0] : [90,90,0];
+	// translate(front_tr){rotate(front_rot){box_front(box_x-(walls*2),box_y-walls,front_z);}}
+	
+	// lid
+	// lid_tr = 3Dprintflag ? [0,0,8] : [0,box_y*3,-box_y+walls];
+	lid_tr = 3Dprintflag ? [0,0,8] : [0,0,-box_y+walls];
+	lid_rot = 3Dprintflag ? [0,0,0] : [0,0,0];
+	// translate(lid_tr){rotate(lid_rot){lid();}}
+	
+	// pressure transducer
+	transducer_tr = 3Dprintflag ? [0,0,0] : [80,-95,trbase_h];
+	transducer_rot = 3Dprintflag ? [0,0,0] : [0,0,90];
+	// translate(transducer_tr){rotate(transducer_rot){#transducer();}}
+	// translate(transducer_tr){rotate(transducer_rot){transducer_base();}}
+	//translate([0, trbase_w*1.1, -10]) {translate(transducer_tr){rotate(transducer_rot){#transducer();}}}
+	translate([0,0,-9]){translate(transducer_tr){rotate(transducer_rot){transducer_basetop();}}}
+	
+	//9V battery
+	battery_tr = 3Dprintflag ? [-50,10,0] : [0,0,0];
+	battery_rot = 3Dprintflag ? [90,0,180] : [0,0,0];
+	// translate(battery_tr){rotate(battery_rot){#battery_9V();}}
+	}
+	translate([-200, -200, -199.9]) {cube(size=[400, 400, 200], center=false);}
+}
 
 
 module transducer() {
