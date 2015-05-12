@@ -38,25 +38,25 @@ switch_r=6/2;
 n_faces=16;
 
 
-3Dprintflag=0;
+3Dprintflag=1;
 
 difference() {
 	union(){
 	// main box
 	bottom_tr = 3Dprintflag ? [0,0,0] : [0,0,0];
 	bottom_rot = 3Dprintflag ? [0,0,0] : [0,0,0];
-	// translate(bottom_tr){rotate(bottom_rot){box_bottom();}}
+	translate(bottom_tr){rotate(bottom_rot){box_bottom();}}
 	
 	// front (for screen)
 	front_tr = 3Dprintflag ? [box_x-front_z,walls,walls+1] : [0,-front_z,front_z];
 	front_rot = 3Dprintflag ? [0,0,0] : [90,90,0];
-	// translate(front_tr){rotate(front_rot){box_front(box_x-(walls*2),box_y-walls,front_z);}}
+	translate(front_tr){rotate(front_rot){box_front(box_x-(walls*2),box_y-walls,front_z);}}
 	
 	// lid
 	// lid_tr = 3Dprintflag ? [0,0,8] : [0,box_y*3,-box_y+walls];
 	lid_tr = 3Dprintflag ? [0,0,8] : [0,0,-box_y+walls];
 	lid_rot = 3Dprintflag ? [0,0,0] : [0,0,0];
-	// translate(lid_tr){rotate(lid_rot){lid();}}
+	translate(lid_tr){rotate(lid_rot){lid();}}
 	
 	// pressure transducer
 	transducer_tr = 3Dprintflag ? [0,0,0] : [80,-95,trbase_h];
@@ -263,4 +263,4 @@ module box_hull(bx,by,bz) {
 
 
 //Other .scad files
-include </Users/angueyraaristjm/Documents/3DProjects/ScrewsAndNuts/ScrewsAndNuts.scad>
+use </Users/angueyraaristjm/Documents/3DProjects/ScrewsAndNuts/ScrewsAndNuts.scad>
