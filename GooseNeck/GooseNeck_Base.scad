@@ -1,11 +1,3 @@
-// boxes.scad required for roundedBox module
-include </Users/angueyraaristjm/Documents/LiLab/3DPrinting/GooseNeck/Parametric_Modular_Hose_Library_v02/modularHoseLibrary.scad>
-//modularHoseRoundNozzle(i4, i8);
-//modularHoseSegment(i4);
-//modularHoseBasePlate(i4);
-//modularHoseDoubleSocket(i4);
-//modularHoseFlareNozzle(i4, i1, i16);
-
 separation=35;
 n_faces=8;
 
@@ -24,7 +16,7 @@ pillar_r=8;
 basebox_tr = 3Dprintflag ? [0,0,0] : [0,0,0];
 basebox_rot = 3Dprintflag ? [0,0,0] : [0,0,0];
 
-lid_tr = 3Dprintflag ? [60,50,box_wall*2] : [-20,-20,40];
+lid_tr = 3Dprintflag ? [80,80,box_wall*2] : [-20,-20,40];
 lid_rot = 3Dprintflag ? [0,180,0] : [0,0,0];
 
 battery_tr = 3Dprintflag ? [-50,10,0] : [0,0,0];
@@ -32,21 +24,14 @@ battery_rot = 3Dprintflag ? [90,0,1800] : [0,0,0];
 
 
 
-// Box	
-translate(basebox_tr){
-	rotate(basebox_rot){
-			base_box();
-}}
-//Lid
-translate(lid_tr){
-	rotate(lid_rot){
-			lid();
-}}
-//9V battery
-translate(battery_tr){
-	rotate(battery_rot){
-			#battery_9V();
-}}
+// Box
+// translate(basebox_tr){rotate(basebox_rot){base_box();}}
+
+// Lid
+translate(lid_tr){rotate(lid_rot){lid();}}
+
+// 9V battery
+// translate(battery_tr){rotate(battery_rot){battery_9V();}}
 
 module battery_9V() {
 	cube(size=[26, 16.9, 44.7], center=true);
@@ -60,11 +45,13 @@ module base_box() {
 	difference() {
 		base_box_rim();
 		union() {
-			base_box_holes();
+			translate([5,0,0]){base_box_holes();}
 			translate([-20, -20, pillar_z+9.9]) {lid_pillars2();}
+			translate([30, 30, 5]) {cylinder(r=6/2, h=20, center=true);}
 		}
 	}
-	neck_attachment();
+	translate([5,0,0]){neck_attachment();}
+
 }
 
 module lid() {
@@ -75,7 +62,7 @@ module lid() {
 			}
 			lid_screws();
 	}
-	#lid_screws();
+	// #lid_screws();
 }
 
 module lid_pillars() {
@@ -242,4 +229,7 @@ module screw2(nutz) {
 	}
 }
 	
+
+// boxes.scad required for roundedBox module
+include </Users/angueyraaristjm/Documents/LiLab/3DPrinting/GooseNeck/Parametric_Modular_Hose_Library_v02/modularHoseLibrary.scad>
 	

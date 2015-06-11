@@ -31,6 +31,34 @@ r3_tr = 3Dprintflag ? [0,0,0] : [-7.5*unit,6.5*unit,0];
 r3_rot = 3Dprintflag ? [0,0,0] : [0,0,0];
 translate(r3_tr){rotate(r3_rot){r3();}}
 
+o1_tr = 3Dprintflag ? [0,0,0] : [-7.5*unit,12.5*unit,0];
+o1_rot = 3Dprintflag ? [0,0,0] : [0,0,0];
+translate(o1_tr){rotate(o1_rot){o1();}}
+
+u1_tr = 3Dprintflag ? [0,0,0] : [-11.5*unit,16*unit,0];
+u1_rot = 3Dprintflag ? [0,0,0] : [0,0,0];
+translate(u1_tr){rotate(u1_rot){u1();}}
+
+
+module u1() {
+	square(1.5,0);
+	square(2,0);
+	square(3,0);
+	square(4,0);
+	square(5,0);
+	square(5.5,0);
+	translate([6.5*unit, 0, 0]) {mirror([1, 0, 0]) {pgram(0,0);}}
+	translate([5.5*unit, unit, 0]) {mirror([1, 0, 0]) {pgram(0,0);}}
+}
+
+module o1(){
+	difference() {
+		cylinder(r=2.5*unit, h=unit_z, center=true);
+		cylinder(r=1.25*unit, h=unit_z*1.1, center=true);
+	}
+	
+}
+
 module r3() {
 	pgram(0,0);
 	pgram(1,1);
