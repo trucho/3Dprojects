@@ -1,24 +1,26 @@
-separation=35;
+separation=20;
 n_faces=8;
 
-box_x=100; 		//default = 100
-box_y=60;  		//default = 60
-box_z=40;  		//default = 40
+box_x=50;
+box_y=60;
+box_z=40;
+lid_z=10;
+lid_tol=1; //tolerance
 
-lid_z=10; 		//default = 10
-lid_tol=1; 		//tolerance
+box_wall=5;
 
-box_wall=5; 	//default = 5
-
-pillar_z=25;	//default = 25
-pillar_r=8;		//default = 8
+pillar_z=25;
+pillar_r=8;
 
 3Dprintflag=1;
 basebox_tr = 3Dprintflag ? [0,0,0] : [0,0,0];
 basebox_rot = 3Dprintflag ? [0,0,90] : [0,0,0];
 
-lid_tr = 3Dprintflag ? [110,box_y+20,box_wall*2] : [-20,-20,50];
+lid_tr = 3Dprintflag ? [110,30,box_wall*2] : [-20,-20,40];
 lid_rot = 3Dprintflag ? [0,180,90] : [0,0,0];
+
+battery_tr = 3Dprintflag ? [80,5,15] : [0,0,0];
+battery_rot = 3Dprintflag ? [90,0,90] : [0,0,0];
 
 
 
@@ -28,15 +30,29 @@ translate(basebox_tr){rotate(basebox_rot){base_box();}}
 // Lid
 translate(lid_tr){rotate(lid_rot){lid();}}
 
+// 9V battery
+//#translate(battery_tr){rotate(battery_rot){battery_9V();}}
+
+module battery_9V() {
+	cube(size=[26, 16.9, 44.7], center=true);
+	translate([-6.5, 0, 2]){cylinder(r=8/2, h=48.8, center=true);}
+	translate([13-6.5, 0, 2]){cylinder(r=8/2, h=48.8, center=true);}
+}
+
 
 
 module base_box() {
 	difference() {
 		base_box_rim();
 		union() {
+			translate([-5,0,0]){base_box_holes();}
 			translate([-20, -20, pillar_z+9.9]) {lid_pillars2();}
+			//switch hole
+			translate([5, 30, 5]) {cylinder(r=6.5/2, h=20, center=true);}
+			translate([5, 30, 5]) {cube(size=[20, 10, 7], center=true);;}
 		}
 	}
+	translate([-5,0,0]){neck_attachment();}
 }
 
 module lid() {
@@ -167,7 +183,24 @@ module base_box_rim(){
 	}
 }
 
+module base_box_holes(){
+	box_holes_r=6.5;
+	// Holes
+	translate([0,0,5]) {cylinder(r=box_holes_r, h=20, center=true);}
+	translate([(1.0*separation),0,5]) {cylinder(r=box_holes_r, h=40, center=true);}
+}
 
+module neck_attachment() {
+	for (i=[0:1]) {
+		translate([separation*i, 0 , 0]) {
+			difference() {
+				modularHoseSegment(i4);
+				// translate([0, 0 , 17]) {cube(size=[0, 0, 0], center=true);}
+				translate([0, 0 , 17]) {cube(size=[15, 15, 10], center=true);}
+			}
+		}
+	}
+}
 
 module screw() {
 	mirror([0,0,1]) {
@@ -196,4 +229,6 @@ module screw2(nutz) {
 }
 	
 
+// boxes.scad required for roundedBox module
+include </Users/angueyraaristjm/Documents/LiLab/3DPrinting/GooseNeck/Parametric_Modular_Hose_Library_v02/modularHoseLibrary.scad>
 	
