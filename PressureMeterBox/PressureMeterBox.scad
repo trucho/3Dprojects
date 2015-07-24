@@ -38,7 +38,7 @@ switch_r=6/2;
 n_faces=16;
 
 
-3Dprintflag=1;
+3Dprintflag=0;
 
 difference() {
 	union(){

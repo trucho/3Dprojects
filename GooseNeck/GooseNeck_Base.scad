@@ -14,10 +14,10 @@ pillar_r=8;
 
 3Dprintflag=1;
 basebox_tr = 3Dprintflag ? [0,0,0] : [0,0,0];
-basebox_rot = 3Dprintflag ? [0,0,0] : [0,0,0];
+basebox_rot = 3Dprintflag ? [0,0,90] : [0,0,0];
 
-lid_tr = 3Dprintflag ? [80,80,box_wall*2] : [-20,-20,40];
-lid_rot = 3Dprintflag ? [0,180,0] : [0,0,0];
+lid_tr = 3Dprintflag ? [110,80,box_wall*2] : [-20,-20,40];
+lid_rot = 3Dprintflag ? [0,180,90] : [0,0,0];
 
 battery_tr = 3Dprintflag ? [-50,10,0] : [0,0,0];
 battery_rot = 3Dprintflag ? [90,0,1800] : [0,0,0];
@@ -25,7 +25,7 @@ battery_rot = 3Dprintflag ? [90,0,1800] : [0,0,0];
 
 
 // Box
-// translate(basebox_tr){rotate(basebox_rot){base_box();}}
+translate(basebox_tr){rotate(basebox_rot){base_box();}}
 
 // Lid
 translate(lid_tr){rotate(lid_rot){lid();}}
@@ -47,11 +47,12 @@ module base_box() {
 		union() {
 			translate([5,0,0]){base_box_holes();}
 			translate([-20, -20, pillar_z+9.9]) {lid_pillars2();}
-			translate([30, 30, 5]) {cylinder(r=6/2, h=20, center=true);}
+			//switch hole
+			translate([30, 30, 5]) {cylinder(r=6.5/2, h=20, center=true);}
+			translate([30, 30, 5]) {cube(size=[20, 10, 7], center=true);;}
 		}
 	}
 	translate([5,0,0]){neck_attachment();}
-
 }
 
 module lid() {
@@ -168,7 +169,7 @@ module base_box_rim(){
 		}
 		//Inner shell	
 		hull() {
-			translate([-20, -20, 22]) {
+			translate([-20, -20, 28]) {
 				translate([box_wall,box_wall,0]) {
 					cylinder(r=10, h=box_z, center=true);}
 				translate([box_x-box_wall,box_wall,0]) {

@@ -1,19 +1,50 @@
 // boxes.scad required for roundedBox module
-include </Users/angueyraaristjm/Documents/LiLab/3DPrinting/GooseNeck/Parametric_Modular_Hose_Library_v02/modularHoseLibrary.scad>
 //modularHoseRoundNozzle(i4, i8);
 //modularHoseSegment(i4);
 //modularHoseBasePlate(i4);
 //modularHoseDoubleSocket(i4);
 //modularHoseFlareNozzle(i4, i1, i16);
 
+s=16;
+sh=16*sqrt(3)/2;
 
-for (i=[0:4]) {
-	for (j=[0:4]) {
+//
+// for (i=[0:4]) {
+// 	for (j=[0:5]) {
+// 		scale([1.5, 1.5, 1.5]) {
+// 			translate([16*i, 16*j, 0]) {modularHoseSegment(i4);}
+// 		}
+// 	}
+// }
+		
+for (i=[0:6]) {
 		scale([1.5, 1.5, 1.5]) {
-			translate([16*i, 16*j, 0]) {modularHoseSegment(i4);}
+			translate([s*i, 0, 0]) {modularHoseSegment(i4);}
+			
+			translate([s*i, sh*2, 0]) {modularHoseSegment(i4);}
+			
+			translate([s*i, sh*4, 0]) {modularHoseSegment(i4);}
+			
+			translate([s*i+s/2, sh, 0]) {modularHoseSegment(i4);}
+			
+			translate([s*i+s/2, sh*3, 0]) {modularHoseSegment(i4);}
 		}
-	}
 }
 
-	
+
+// for (i=[0:1]) {for (j=[0:1]) {scale([1.5, 1.5, 1.5]) {translate([16*i, 16*j, 0]) {modularHoseSegment(i4);}}}}
+//
+// translate([-50, 0, 0]) {
+// 		for (i=[0:1]) {for (j=[0:1]) {translate([16*i, 16*j, 0]) {modularHoseSegment(i4);}}}
+// }
+//
+// translate([0,50,0]) {
+// 		for (i=[0:1]) {for (j=[0:1]) {translate([8*i, 8*j, 0]) {modularHoseSegment(i8);}}}
+// }
+//
+// translate([-30,50,0]) {
+// 		for (i=[0:1]) {for (j=[0:1]) {translate([4*i,4*j, 0]) {modularHoseSegment(i16);}}}
+// }
+
+include </Users/angueyraaristjm/Documents/3Dprojects/GooseNeck/modularHoseLibrary.scad>
 	

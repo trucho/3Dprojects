@@ -4,12 +4,14 @@
 n_faces=12;
 
 //inner tube
-tube_id=32.25;
+tube_id=32;
 tube_h=130;
+tube_wall=10;
 
-//outer tube
-bigtube_wall=6.05;
-bigtube_h=120;
+cap_d=tube_id-tube_wall-1;
+// //outer tube
+// bigtube_wall=6.05;
+// bigtube_h=120;
 
 //RJ connector for ethernet cable
 rj_x=14.7;
@@ -43,18 +45,22 @@ led_sep=.5;
 //Main call
 // translate([20, 0, -10]) {#M3(20)};
 
-ledArray();
+translate([0,0,15-led_h]){#ledArray();}
 
- #ledCap();
+ledCap();
 
-translate([0, 0, -100]) {
-		rj_connector();
-}
-// tube();
+translate([0, 0, -100]) {rj_connector();}
+// translate([0, 0, -100]) {tube();}
+
 
 //Modules
 module ledCap() {
-	cylinder(r=tube_id, h=30, center=true);
+	color([100/255, 100/255, 200/255, .3]) {
+		difference() {
+			cylinder(r=cap_d, h=30, center=true);
+			translate([0,0,15-led_h]){ledArray();}
+		}
+	}
 }
 
 
@@ -102,8 +108,9 @@ module led() {
 module tube() {
 	color([100/255, 100/255, 100/255, .3]) {	
 		difference() {
-			cylinder(r=tube_id+bigtube_wall, h=bigtube_h, center=false,$fn=n_faces);
-			translate([0, 0, -(bigtube_h/20)]) {cylinder(r=tube_id, h=bigtube_h*1.1, center=false,$fn=n_faces);}
+			cylinder(r=tube_id, h=tube_h, center=false,$fn=n_faces);
+			translate([0,0,-5]){cylinder(r=tube_id-tube_wall, h=tube_h*1.1, center=false,$fn=n_faces);}
+
 		}
 	}
 }

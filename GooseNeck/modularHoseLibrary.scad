@@ -22,11 +22,11 @@ include </Users/angueyraaristjm/Documents/3Dprojects/boxes.scad>
 // global variables
 // -----------------------------------------------------------------------------------
 
-// definition = 32;   // used for $fn parameter when generating curved surfaces
-// tolerance = 0.2;  // distance between ball and socket surfaces
+//definition = 32;   // used for $fn parameter when generating curved surfaces
+//tolerance = 0.2;  // distance between ball and socket surfaces
 
-definition = 100;   // used for $fn parameter when generating curved surfaces
-tolerance = .5;  // distance between ball and socket surfaces
+definition = 32;   // used for $fn parameter when generating curved surfaces
+tolerance = .2;  // distance between ball and socket surfaces
 
 
 // fractions of an inch
@@ -85,7 +85,7 @@ module modularHoseSocket(mhBore) {
 	mhSocketChamferID = mhBore*1.77;
 
 	union() {
-		translate([0,0,mhSkirtHeight + mhOffsetToBaseOfSkirt]) child(0);
+		translate([0,0,mhSkirtHeight + mhOffsetToBaseOfSkirt]) children(0);
 		difference() {
 			union() {		
 	
@@ -120,7 +120,7 @@ module modularHoseWaist(mhBore, mhWaistHeight) {
 	mhWaistOD = 1.58 * mhBore;
 
 	union() {
-		translate([0,0,mhWaistHeight]) child(0);
+		translate([0,0,mhWaistHeight]) children(0);
 		difference() {
 			translate([0,0,-0.01]) cylinder(h= mhWaistHeight + 0.02, r=mhWaistOD/2, $fn = definition);
 				
@@ -138,7 +138,7 @@ module modularHoseRoundNozzleTip(mhBore, mhNozzleID) {
 
 	difference() {
 		union() {
-			translate([0,0,mhNozzleHeight]) child(0);
+			translate([0,0,mhNozzleHeight]) children(0);
 
 			cylinder(h= mhNozzleHeight, r1=mhWaistOD/2, r2=mhNozzleOD/2, $fn = definition);
 		}
@@ -156,7 +156,7 @@ module modularHoseFlareNozzleTip(mhBore, mhNozzleWidth,mhNozzleThickness) {
 
 	difference() {
 		union() {
-			translate([0,0,mhNozzleHeight]) child(0);
+			translate([0,0,mhNozzleHeight]) children(0);
 
 			cylinder(h= mhNozzleHeight, r1=mhWaistOD/2, r2=mhNozzleWidth/2, $fn = definition);
 		}
@@ -252,8 +252,8 @@ if (false) {
 
 module evenlySpaceX(spacing) {
   
-	for (i = [0 : $children-1])
-    		translate([i * spacing , 0, 0 ]) child(i);
+	for (i = [0 : $childrenren-1])
+    		translate([i * spacing , 0, 0 ]) children(i);
 }
 
 // pass "false" to if statement to hide example elements
