@@ -37,7 +37,7 @@ ZADlip=6;
 ZADsetscrewh=20.3;
 
 //Mounting rail
-RAILh=120;
+RAILh=125;
 RAILz=8;
 RAILx=ZADr0*2+RAILz+5;
 
@@ -50,7 +50,7 @@ LCDpost_holedist=20;
 carvingMODz=HLDRy;
 crv=.5;
 
-3Dprintflag=1;
+3Dprintflag=0;
 
 uLCD220h_tr = 3Dprintflag ? [0,0,HLDRx] : [0,0,0];
 uLCD220h_rot = 3Dprintflag ? [0,-90,0] : [0,0,0];
@@ -63,6 +63,9 @@ ZAD_rot = 3Dprintflag ? [0,180,0] : [-90,0,90];
 
 RAIL_tr = 3Dprintflag ? [ZADr0*3,0,RAILh/2]:[-RAILh/2+ZADr0/2+3,RAILz/2-3,RAILz/2-3];
 RAIL_rot = 3Dprintflag ? [180,0,0] : [90,0,90];
+
+RAIL2_tr = 3Dprintflag ? [ZADr0*3,0,RAILh/2]:[-RAILh*2+ZADr0*2,RAILz/2-3,RAILz/2-3];
+RAIL2_rot = 3Dprintflag ? [180,0,0] : [90,0,-90];
 
 railBase_tr = 3Dprintflag ? [-HLDRx+15,0,BASEx-.55] : [-BASEx,1,RAILx/2+RAILz*3/4];
 railBase_rot = 3Dprintflag ? [180,0,90] : [0,0,90];
@@ -77,33 +80,34 @@ LCDpost_rot = 3Dprintflag ? [0,0,0] : [0,0,0];
 MAIN();
 
 module MAIN() {
-	difference() {
+	// difference() {
 	union(){
 		//Zeiss top port adapter
 		//translate(ZAD_tr){rotate(ZAD_rot){ZAD();}}
 
 		//Rail
-		//translate(RAIL_tr){rotate(RAIL_rot){RAIL();}}
+		translate(RAIL_tr){rotate(RAIL_rot){RAIL();}}
+		translate(RAIL2_tr){rotate(RAIL2_rot){RAIL2();}}
 
 		//Rail base
-		translate(railBase_tr){rotate(railBase_rot){railBase();}}
-		translate([-HLDRx,0,BASEx-.55]){rotate([180,0,90]){railBase();}}
-		translate([-HLDRx-15,0,BASEx-.55]){rotate([180,0,90]){railBase();}}
-		translate([-HLDRx-30,0,BASEx-.55]){rotate([180,0,90]){railBase();}}
+		// translate(railBase_tr){rotate(railBase_rot){railBase();}}
+		// translate([-HLDRx,0,BASEx-.55]){rotate([180,0,90]){railBase();}}
+		// translate([-HLDRx-15,0,BASEx-.55]){rotate([180,0,90]){railBase();}}
+		// translate([-HLDRx-30,0,BASEx-.55]){rotate([180,0,90]){railBase();}}
 
-		//Posts
-		translate(LCDpost_tr){rotate(LCDpost_rot){LCDpost();}}
-		translate(post_tr){rotate(post_rot){post();}}
+		// //Posts
+// 		translate(LCDpost_tr){rotate(LCDpost_rot){LCDpost();}}
+// 		translate(post_tr){rotate(post_rot){post();}}
 
-		//Extraposts
-		translate([0,HLDRx/2+20,POSTh/2]){LCDpost();}
-		translate([HLDRx/2+5,10,POSTh/2]){post();}
-		translate([HLDRx/2+5,0,POSTh/2]){post();}
-		translate([HLDRx/2+5,-10,POSTh/2]){post();}
-		translate([HLDRx/2+5,-20,POSTh/2]){post();}
+		// //Extraposts
+		// translate([0,HLDRx/2+20,POSTh/2]){LCDpost();}
+		// translate([HLDRx/2+5,10,POSTh/2]){post();}
+		// translate([HLDRx/2+5,0,POSTh/2]){post();}
+		// translate([HLDRx/2+5,-10,POSTh/2]){post();}
+		// translate([HLDRx/2+5,-20,POSTh/2]){post();}
 
-		//Screen holder
-		translate(uLCD220h_tr){rotate(uLCD220h_rot){uLCD220_h();}}
+		// //Screen holder
+		// translate(uLCD220h_tr){rotate(uLCD220h_rot){uLCD220_h();}}
 
 		// Screen itself
 		// translate(uLCD220_tr){rotate(uLCD220_rot){uLCD220_carving();}}
@@ -111,8 +115,8 @@ module MAIN() {
 	
 	}
 	
-	color([255/255,0/255,120/255,0.5]){translate([0,0,-4.99]) {cube(size=[200,200,10],center=true);}}
-	}
+	// color([255/255,0/255,120/255,0.5]){translate([0,0,-4.99]) {cube(size=[200,200,10],center=true);}}
+	// }
 }
 
 
@@ -196,6 +200,12 @@ module RAIL() {
 			//rails
 			RAILrail();
 			rotate([0,0,270]) {translate([0,0,0]) {RAILrail();}}
+			//bottom plate and joints
+			translate([0,-(RAILx/2+RAILz),0]) {rotate([90,0,0]) {cube(size=[RAILx,RAILh,RAILz*2],center=true);}}
+			translate([0,-(RAILx/2)-RAILz/2,-RAILh/2]) {rotate([90,0,0]) {cube(size=[RAILx/2,RAILh/3,RAILz],center=true);}}
+		
+			translate([RAILx/2-RAILx/8,RAILx/2-RAILz/2,-RAILh/2]) {rotate([90,0,0]) {cube(size=[RAILx/4,RAILh/3,RAILz],center=true);}}
+			translate([-RAILx/2+RAILx/8,RAILx/2-RAILz/2,-RAILh/2]) {rotate([90,0,0]) {cube(size=[RAILx/4,RAILh/3,RAILz],center=true);}}
 		}
 		translate([0,0,0]) {union(){
 			//expanded screw holes
@@ -221,6 +231,11 @@ module RAIL() {
 				cube(size=[RAILz/100,RAILz,RAILh],center=true);}
 				}
 			}
+			//joint screw holes
+			translate([RAILx/2,RAILx/2-4,-RAILh/2-RAILh/12]) {rotate([0,90,0]) {screwM3();}}
+			translate([-RAILx/2,RAILx/2-4,-RAILh/2-RAILh/12]) {rotate([0,-90,0]) {screwM3();}}
+			translate([RAILx/2-10,-RAILx/2-4,-RAILh/2-RAILh/12]) {rotate([0,90,0]) {M3(11);}}
+			translate([-RAILx/2+10,-RAILx/2-4,-RAILh/2-RAILh/12]) {rotate([0,-90,0]) {M3(11);}}
 		}}
 	}
 
@@ -228,6 +243,64 @@ module RAIL() {
 	//adding things here to see
 	color([255/255,0/255,120/255,0.5]){
 		//
+		
+		//
+	}
+}
+
+module RAIL2() {
+	difference() {
+//		translate([0,0,-RAILz*2-5]) {union() {
+		union() {
+			difference() {
+					cube(size=[RAILx,RAILx,RAILh], center=true);				
+					translate([-RAILz,-RAILz,0]) {cube(size=[RAILx,RAILx,RAILh*1.1], center=true);}
+			}
+			//rails
+			RAILrail();
+			rotate([0,0,270]) {translate([0,0,0]) {RAILrail();}}
+			//bottom plate
+			translate([0,-(RAILx/2+RAILz),0]) {rotate([90,0,0]) {cube(size=[RAILx,RAILh,RAILz*2],center=true);}}
+		}
+		translate([0,0,0]) {union(){
+			// //expanded screw holes
+			// rotate([-90,0,0]) {translate([ZADh/2-3,-RAILh/2+ZADlip,ZADr1*2-4.5]) {
+			// 	minkowski() {screwM3();cube(size=[6,.5,1],center=false);}}
+			// }
+			// rotate([-90,0,0]) {translate([-ZADh/2-6-3,-RAILh/2+ZADlip,ZADr1*2-4.5]) {
+			// 	minkowski() {screwM3();cube(size=[6,.5,1],center=false);}}
+			// }
+			// translate([RAILx/2,-RAILx/2+ZADlip,RAILh/2-ZADlip]) {
+			// 		rotate([0,90,0]) {minkowski() {screwM3();cube(size=[.5,6,1],center=false);}}
+			// }
+			//rail holes
+			translate([0,RAILx/2-RAILz/2,-ZADlip*2]) {
+				minkowski() {
+				rotate([90,0,0]) {cylinder(r=RAILz/2,h=20,center=true);}
+				cube(size=[RAILz/100,RAILz,RAILh],center=true);}
+			}
+			rotate([0,0,-90]) {
+				translate([0,RAILx/2-RAILz/2,-ZADlip*2]) {
+				minkowski() {
+				rotate([90,0,0]) {cylinder(r=RAILz/2,h=20,center=true);}
+				cube(size=[RAILz/100,RAILz,RAILh],center=true);}
+				}
+			}
+			// joints between rails
+			translate([0,-(RAILx/2)-RAILz/2,-RAILh/2]) {rotate([90,0,0]) {cube(size=[RAILx/2,RAILh/3,RAILz],center=true);}}
+			translate([RAILx/2-RAILx/8,RAILx/2-RAILz/2,-RAILh/2]) {rotate([90,0,0]) {cube(size=[RAILx/4,RAILh/3,RAILz],center=true);}}
+			translate([-RAILx/2+RAILx/8,RAILx/2-RAILz/2,-RAILh/2]) {rotate([90,0,0]) {cube(size=[RAILx/4,RAILh/3,RAILz],center=true);}}
+		}}
+	}
+
+	
+	//adding things here to see
+	color([255/255,0/255,120/255,0.5]){
+		//
+		
+		
+		
+		
 		//
 	}
 }
