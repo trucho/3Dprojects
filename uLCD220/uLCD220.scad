@@ -46,6 +46,15 @@ BASEx=10;
 POSTh=14;
 LCDpost_holedist=20;
 
+// 10x objective
+obj10r1=25.9/2;
+obj10h1=39.42-4.37;
+obj10bevelh=8.2;
+obj10bevelr=15.2/2;
+
+obj10r2=20.2/2;
+obj10h2=4.37/2;
+
 
 carvingMODz=HLDRy;
 crv=.5;
@@ -524,4 +533,4 @@ module uLCD220_screen_back_carving() {
 }
 
 
-use </Users/Angueyra/Documents/3Dprojects/ScrewsAndNuts/ScrewsAndNuts.scad>
+use </Users/angueyraaristjm/Documents/3Dprojects/ScrewsAndNuts/ScrewsAndNuts.scad>
