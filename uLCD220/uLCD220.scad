@@ -50,7 +50,7 @@ LCDpost_holedist=20;
 carvingMODz=HLDRy;
 crv=.5;
 
-3Dprintflag=0;
+3Dprintflag=1;
 
 uLCD220h_tr = 3Dprintflag ? [0,0,HLDRx] : [0,0,0];
 uLCD220h_rot = 3Dprintflag ? [0,-90,0] : [0,0,0];
@@ -64,8 +64,8 @@ ZAD_rot = 3Dprintflag ? [0,180,0] : [-90,0,90];
 RAIL_tr = 3Dprintflag ? [ZADr0*3,0,RAILh/2]:[-RAILh/2+ZADr0/2+3,RAILz/2-3,RAILz/2-3];
 RAIL_rot = 3Dprintflag ? [180,0,0] : [90,0,90];
 
-RAIL2_tr = 3Dprintflag ? [ZADr0*3,0,RAILh/2]:[-RAILh*2+ZADr0*2,RAILz/2-3,RAILz/2-3];
-RAIL2_rot = 3Dprintflag ? [180,0,0] : [90,0,-90];
+RAIL2_tr = 3Dprintflag ? [ZADr0*3-RAILx*1.1,15,RAILh/2]:[-RAILh*2+ZADr0*2+0,RAILz/2-3,RAILz/2-3];
+RAIL2_rot = 3Dprintflag ? [180,0,180] : [90,0,-90];
 
 railBase_tr = 3Dprintflag ? [-HLDRx+15,0,BASEx-.55] : [-BASEx,1,RAILx/2+RAILz*3/4];
 railBase_rot = 3Dprintflag ? [180,0,90] : [0,0,90];
@@ -80,7 +80,7 @@ LCDpost_rot = 3Dprintflag ? [0,0,0] : [0,0,0];
 MAIN();
 
 module MAIN() {
-	// difference() {
+	difference() {
 	union(){
 		//Zeiss top port adapter
 		//translate(ZAD_tr){rotate(ZAD_rot){ZAD();}}
@@ -115,8 +115,8 @@ module MAIN() {
 	
 	}
 	
-	// color([255/255,0/255,120/255,0.5]){translate([0,0,-4.99]) {cube(size=[200,200,10],center=true);}}
-	// }
+	color([255/255,0/255,120/255,0.5]){translate([0,0,-4.99]) {cube(size=[200,200,10],center=true);}}
+	}
 }
 
 
@@ -232,8 +232,8 @@ module RAIL() {
 				}
 			}
 			//joint screw holes
-			translate([RAILx/2,RAILx/2-4,-RAILh/2-RAILh/12]) {rotate([0,90,0]) {screwM3();}}
-			translate([-RAILx/2,RAILx/2-4,-RAILh/2-RAILh/12]) {rotate([0,-90,0]) {screwM3();}}
+			translate([RAILx/2+.5,RAILx/2-4,-RAILh/2-RAILh/12]) {rotate([0,90,0]) {screwM3();}}
+			translate([-RAILx/2-.5,RAILx/2-4,-RAILh/2-RAILh/12]) {rotate([0,-90,0]) {screwM3();}}
 			translate([RAILx/2-10,-RAILx/2-4,-RAILh/2-RAILh/12]) {rotate([0,90,0]) {M3(11);}}
 			translate([-RAILx/2+10,-RAILx/2-4,-RAILh/2-RAILh/12]) {rotate([0,-90,0]) {M3(11);}}
 		}}
@@ -241,9 +241,9 @@ module RAIL() {
 
 	
 	//adding things here to see
-	color([255/255,0/255,120/255,0.5]){
+	color([255/255,255/255,120/255,0.5]){
 		//
-		
+//		translate([RAILx/2+.5,RAILx/2-4,-RAILh/2-RAILh/12]) {rotate([0,90,0]) {screwM3();}}
 		//
 	}
 }
@@ -263,16 +263,16 @@ module RAIL2() {
 			translate([0,-(RAILx/2+RAILz),0]) {rotate([90,0,0]) {cube(size=[RAILx,RAILh,RAILz*2],center=true);}}
 		}
 		translate([0,0,0]) {union(){
-			// //expanded screw holes
-			// rotate([-90,0,0]) {translate([ZADh/2-3,-RAILh/2+ZADlip,ZADr1*2-4.5]) {
-			// 	minkowski() {screwM3();cube(size=[6,.5,1],center=false);}}
-			// }
-			// rotate([-90,0,0]) {translate([-ZADh/2-6-3,-RAILh/2+ZADlip,ZADr1*2-4.5]) {
-			// 	minkowski() {screwM3();cube(size=[6,.5,1],center=false);}}
-			// }
-			// translate([RAILx/2,-RAILx/2+ZADlip,RAILh/2-ZADlip]) {
-			// 		rotate([0,90,0]) {minkowski() {screwM3();cube(size=[.5,6,1],center=false);}}
-			// }
+			//expanded screw holes
+			rotate([-90,0,0]) {translate([ZADh/2-3,-RAILh/2+ZADlip,ZADr1*2-4.5]) {
+				minkowski() {screwM3();cube(size=[6,.5,1],center=false);}}
+			}
+			rotate([-90,0,0]) {translate([-ZADh/2-6-3,-RAILh/2+ZADlip,ZADr1*2-4.5]) {
+				minkowski() {screwM3();cube(size=[6,.5,1],center=false);}}
+			}
+			translate([RAILx/2,-RAILx/2+ZADlip,RAILh/2-ZADlip]) {
+					rotate([0,90,0]) {minkowski() {screwM3();cube(size=[.5,6,1],center=false);}}
+			}
 			//rail holes
 			translate([0,RAILx/2-RAILz/2,-ZADlip*2]) {
 				minkowski() {
@@ -287,9 +287,19 @@ module RAIL2() {
 				}
 			}
 			// joints between rails
-			translate([0,-(RAILx/2)-RAILz/2,-RAILh/2]) {rotate([90,0,0]) {cube(size=[RAILx/2,RAILh/3,RAILz],center=true);}}
-			translate([RAILx/2-RAILx/8,RAILx/2-RAILz/2,-RAILh/2]) {rotate([90,0,0]) {cube(size=[RAILx/4,RAILh/3,RAILz],center=true);}}
-			translate([-RAILx/2+RAILx/8,RAILx/2-RAILz/2,-RAILh/2]) {rotate([90,0,0]) {cube(size=[RAILx/4,RAILh/3,RAILz],center=true);}}
+			jtol=.01;
+			translate([0,-(RAILx/2)-RAILz/2,-RAILh/2]) {rotate([90,0,0]) {cube(size=[RAILx/2,RAILh/3,RAILz+jtol],center=true);}}
+			translate([RAILx/2-RAILx/8,RAILx/2-RAILz/2,-RAILh/2]) {rotate([90,0,0]) {cube(size=[RAILx/4+jtol,RAILh/3,RAILz+jtol],center=true);}}
+			translate([-RAILx/2+RAILx/8,RAILx/2-RAILz/2,-RAILh/2]) {rotate([90,0,0]) {cube(size=[RAILx/4+jtol,RAILh/3,RAILz+jtol],center=true);}}
+			
+			
+		
+			
+			//Screw hole for joints
+			translate([RAILx/2,RAILx/2-4,-RAILh/2+RAILh/12]) {rotate([0,90,0]) {M3(21);}}
+			translate([-RAILx/2,RAILx/2-4,-RAILh/2+RAILh/12]) {rotate([0,-90,0]) {M3(21);}}
+			translate([RAILx/2+1,-RAILx/2-4,-RAILh/2+RAILh/12]) {rotate([0,90,0]) {screwM3();}}
+			translate([-RAILx/2-1,-RAILx/2-4,-RAILh/2+RAILh/12]) {rotate([0,-90,0]) {screwM3();}}
 		}}
 	}
 
@@ -297,9 +307,6 @@ module RAIL2() {
 	//adding things here to see
 	color([255/255,0/255,120/255,0.5]){
 		//
-		
-		
-		
 		
 		//
 	}
@@ -517,4 +524,4 @@ module uLCD220_screen_back_carving() {
 }
 
 
-use </Users/angueyraaristjm/Documents/3Dprojects/ScrewsAndNuts/ScrewsAndNuts.scad>
+use </Users/Angueyra/Documents/3Dprojects/ScrewsAndNuts/ScrewsAndNuts.scad>
