@@ -59,7 +59,7 @@ obj10h2=4.37/2;
 carvingMODz=HLDRy;
 crv=.5;
 
-3Dprintflag=1;
+3Dprintflag=0;
 
 uLCD220h_tr = 3Dprintflag ? [0,0,HLDRx] : [0,0,0];
 uLCD220h_rot = 3Dprintflag ? [0,-90,0] : [0,0,0];
@@ -85,18 +85,20 @@ post_rot = 3Dprintflag ? [0,0,0] : [0,0,0];
 LCDpost_tr = 3Dprintflag ? [0,HLDRx/2+5,POSTh/2] : [-HLDRz/2-3,0,RAILx/2-RAILz/2+3];
 LCDpost_rot = 3Dprintflag ? [0,0,0] : [0,0,0];
 
+obj10_tr = 3Dprintflag ? [0,0,0] : [0,0,0];
+obj10_rot = 3Dprintflag ? [0,0,0] : [0,90,0];
 
 MAIN();
 
 module MAIN() {
-	difference() {
+	union() {
 	union(){
 		//Zeiss top port adapter
 		//translate(ZAD_tr){rotate(ZAD_rot){ZAD();}}
 
 		//Rail
-		translate(RAIL_tr){rotate(RAIL_rot){RAIL();}}
-		translate(RAIL2_tr){rotate(RAIL2_rot){RAIL2();}}
+		// translate(RAIL_tr){rotate(RAIL_rot){RAIL();}}
+		// translate(RAIL2_tr){rotate(RAIL2_rot){RAIL2();}}
 
 		//Rail base
 		// translate(railBase_tr){rotate(railBase_rot){railBase();}}
@@ -121,13 +123,29 @@ module MAIN() {
 		// Screen itself
 		// translate(uLCD220_tr){rotate(uLCD220_rot){uLCD220_carving();}}
 		// color([255/255,0/255,0/255],.5){translate(uLCD220_tr){rotate(uLCD220_rot){uLCD220();}}}
+		
+		//Objective holder (10x)
+		color([0/255,0/255,0/255],.5){translate(obj10_tr){rotate(obj10_rot){holder_obj10x();}}}
+		
 	
 	}
 	
-	color([255/255,0/255,120/255,0.5]){translate([0,0,-4.99]) {cube(size=[200,200,10],center=true);}}
+	color([255/255,0/255,120/255,0.2]){translate([0,0,-4.99]) {cube(size=[200,200,10],center=true);}}
 	}
 }
 
+module holder_obj10x() {
+	translate([-HLDRx/2,-HLDRy/6,0]) {obj10x();}
+	uLCD220_hcube();
+}
+
+module obj10x() {
+	translate([0,0,-((obj10h1-obj10bevelh)/2+obj10h2/2)]) {rotate([0,0,0]) {cylinder(r=obj10r2,h=obj10h2,center=true);}}
+	hull(){
+		translate([0,0,0]) {rotate([0,0,0]) {cylinder(r=obj10r1,h=obj10h1-obj10bevelh,center=true);}}
+		translate([0,0,(obj10h1)/2]) {rotate([0,0,0]) {cylinder(r=obj10bevelr,h=obj10bevelh,center=true);}}
+	}
+}
 
 module railBase() {
 	scfct=1.03;
