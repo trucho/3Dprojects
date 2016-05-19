@@ -11,8 +11,8 @@ led_r=5/2;
 
 
 difference() {
- 	for (i=[0:2]) {
- 	 	for (j=[0:2]) {
+ 	for (i=[0:1]) {
+ 	 	for (j=[0:1]) {
  	 		scale([1.5, 1.5, 1.5]) {
  	 			translate([16*i, 16*j, 0]) {
  	//				 #led();

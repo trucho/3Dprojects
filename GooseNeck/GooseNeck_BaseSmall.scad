@@ -1,7 +1,7 @@
-separation=35;
+separation=25;
 n_faces=8;
 
-box_x=100;
+box_x=80;
 box_y=60;
 box_z=40;
 lid_z=10;
@@ -16,7 +16,7 @@ pillar_r=8;
 basebox_tr = 3Dprintflag ? [0,0,0] : [0,0,0];
 basebox_rot = 3Dprintflag ? [0,0,90] : [0,0,0];
 
-lid_tr = 3Dprintflag ? [110,80,box_wall*2] : [-20,-20,40];
+lid_tr = 3Dprintflag ? [110,60,box_wall*2] : [-20,-20,40];
 lid_rot = 3Dprintflag ? [0,180,90] : [0,0,0];
 
 battery_tr = 3Dprintflag ? [-50,10,0] : [0,0,0];
@@ -45,14 +45,15 @@ module base_box() {
 	difference() {
 		base_box_rim();
 		union() {
-			translate([5,0,0]){base_box_holes();}
+			translate([0,0,0]){base_box_holes();}
 			translate([-20, -20, pillar_z+9.9]) {lid_pillars2();}
 			//switch hole
-			translate([30, 30, 5]) {cylinder(r=6.5/2, h=20, center=true);}
-			translate([30, 30, 5]) {cube(size=[20, 10, 7], center=true);;}
+			translate([20, 30, 5]) {
+				cylinder(r=6.5/2, h=20, center=true);
+				cube(size=[20, 10, 7], center=true);;}
 		}
 	}
-	translate([5,0,0]){neck_attachment();}
+	translate([0,0,0]){neck_attachment();}
 }
 
 module lid() {

@@ -17,20 +17,27 @@ sh=16*sqrt(3)/2;
 // 	}
 // }
 		
-for (i=[0:6]) {
+for (i=[0]) {
 		scale([1.5, 1.5, 1.5]) {
-			translate([s*i, 0, 0]) {modularHoseSegment(i4);}
+			translate([s*i, 0, 0]) {unit();}
 			
-			translate([s*i, sh*2, 0]) {modularHoseSegment(i4);}
+			translate([s*i, sh*2, 0]) {unit();}
 			
-			translate([s*i, sh*4, 0]) {modularHoseSegment(i4);}
+			translate([s*i, sh*4, 0]) {unit();}
 			
-			translate([s*i+s/2, sh, 0]) {modularHoseSegment(i4);}
+			translate([s*i+s/2, sh, 0]) {unit();}
 			
-			translate([s*i+s/2, sh*3, 0]) {modularHoseSegment(i4);}
+			translate([s*i+s/2, sh*3, 0]) {unit();q}
 		}
+		
 }
 
+module unit() {
+	difference() {
+			modularHoseSegment(i4);
+			translate([0, 0, 18.7]) {cube(size=[20, 2, 10], center=true);}
+	}
+}
 
 // for (i=[0:1]) {for (j=[0:1]) {scale([1.5, 1.5, 1.5]) {translate([16*i, 16*j, 0]) {modularHoseSegment(i4);}}}}
 //
