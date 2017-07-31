@@ -15,7 +15,18 @@ adj = cos(wall_rot)*clock_h;
 back_tr = 3Dprintflag ? [0,0,0] : [0,0,0];
 back_rot = 3Dprintflag ? [0,0,0] : [0,0,0];
 
-translate(back_tr){rotate(back_rot){clockback();}}
+// normal
+// translate(back_tr){rotate(back_rot){clockback();}}
+
+// test piece
+difference() {
+	translate(back_tr){rotate(back_rot){clockback();}}
+	union() {
+		rotate([90,0,0]) {translate([0,0,85]) {cube(size=[100,100,100],center=true);}}
+		rotate([90,0,0]) {translate([0,0,-25]) {cube(size=[100,100,100],center=true);}}
+	}
+}
+
 
 // modules
 
