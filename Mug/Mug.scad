@@ -1,0 +1,1 @@
+import("mug.stl",convexity=5);

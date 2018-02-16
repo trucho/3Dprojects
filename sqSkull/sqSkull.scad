@@ -1,0 +1,1 @@
+import("sqSkull00.stl",convexity=10);
