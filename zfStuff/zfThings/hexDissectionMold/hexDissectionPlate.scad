@@ -1,5 +1,5 @@
 
-use <../NotoSansJP-DemiLight.otf>
+/* use <../NotoSansJP-DemiLight.otf> */
 
 
 dr = 55/2;
@@ -26,6 +26,8 @@ module labels() {
       rotate([0, 0, 0]) {translate([-2,-1, 0]) {number(7);}}
    }
 }
+
+/* lid(); */
 
 difference() {
    lid();
